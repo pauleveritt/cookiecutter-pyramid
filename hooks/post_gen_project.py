@@ -37,7 +37,7 @@ if SELECTED_PERSISTENCE != 'sqlalchemy':
     shutil.rmtree('./{{ cookiecutter.repo_name }}/scripts')
 
 if PYVENV_AVAILABLE:
-    builder = venv.EnvBuilder()
+    builder = venv.EnvBuilder(with_pip=True)
     builder.create('.')
     # I think this part can be replaced by subclassing venv.EnvBuilder
     # and overriding install_script
