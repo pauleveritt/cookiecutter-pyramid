@@ -51,5 +51,7 @@ msg = dedent(
 print (msg)
 
 if SELECTED_PERSISTENCE == 'sqlalchemy':
-    print ("*Important:* after setup, run initialize_{{ "
-           "cookiecutter.repo_name }}_db to initialize database")
+    print ("""
+    *Important:* after setup, run initialize_{{
+    cookiecutter.repo_name }}_db to initialize database
+""")
