@@ -48,7 +48,8 @@ msg = dedent(
     Welcome to Pyramid.  Sorry for the convenience.
     %(separator)s
 """ % {'separator': separator})
-print msg
+print (msg)
 
 if SELECTED_PERSISTENCE == 'sqlalchemy':
-    print "*Important:* after setup, run initialize_{{ cookiecutter.repo_name }}_db to initialize database" 
+    print ("*Important:* after setup, run initialize_{{ "
+           "cookiecutter.repo_name }}_db to initialize database")
