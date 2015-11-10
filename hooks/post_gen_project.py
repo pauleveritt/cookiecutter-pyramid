@@ -12,6 +12,14 @@ try:
 except ImportError:
     VIRTUALENV_AVAILABLE = False
 
+# On Python 3.3+, use pyvenv to avoid making people install virtualenv
+# before running the cookiecutter template
+try:
+    import venv
+    PYVENV_AVAILABLE = True
+except ImportError:
+    PYVENV_AVAILABLE = False
+
 ENGINES = {'chameleon': 'pt', 'jinja2': 'jinja2', 'mako': 'mako'}
 SELECTED_ENGINE = '{{ cookiecutter.template_engine }}'
 PERSISTENCE_OPTIONS = ['zodb', 'sqlalchemy']
@@ -28,7 +36,18 @@ if SELECTED_PERSISTENCE not in PERSISTENCE_OPTIONS:
 if SELECTED_PERSISTENCE != 'sqlalchemy':
     shutil.rmtree('./{{ cookiecutter.repo_name }}/scripts')
 
-if VIRTUALENV_AVAILABLE:
+if PYVENV_AVAILABLE:
+    builder = venv.EnvBuilder()
+    builder.create('.')
+    # I think this part can be replaced by subclassing venv.EnvBuilder
+    # and overriding install_script
+    proc = subprocess.Popen(
+            ['bin/python', 'setup.py', 'develop'],
+            shell=sys.platform.startswith('win'),
+            cwd='.'
+    )
+    proc.wait()
+elif VIRTUALENV_AVAILABLE:
     virtualenv.create_environment('.')
     proc = subprocess.Popen(
             ['bin/python', 'setup.py', 'develop'],
